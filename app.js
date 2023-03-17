@@ -22,12 +22,18 @@ async function sendmail(req, res) {
   await new Promise((resolve, reject) => {
     const name = req.body.name;
     const furigana = req.body.furigana
+    
+    const textContent = "お問い合わせ、ありがとうございました。\n"+
+                        "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n"+
+                        "【名前】"+name+"\n"+
+                        "【ふりがな】"+furigana+"\n"+
+                        "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n"
 
     const toAdminMail = {
       from: process.env.USER,
       to:   process.env.MAILER_USER,
       subject: `【お問い合わせ】${req.body.name}様より`,
-      text: "お問い合わせ、ありがとうございました。\n送信内容は以下になります。\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n【名前】"+name+"\n【ふりがな】"+furigana+"\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",};
+      text: textContent};
 
     transporter.sendMail(toAdminMail, function (err, info) {
       if (err) {
