@@ -20,21 +20,16 @@ const transporter = nodemailer.createTransport({
 //メールの文面
 async function sendmail(req, res) {
   await new Promise((resolve, reject) => {
-    const toGestMailData = {
-      from: process.env.USER,
-      to: `${req.body.email}`,
-      subject: `【お問い合わせ】${req.body.name}様より`,
-      text: " | Sent from: ",
-      html: `<p>お問い合わせ、ありがとうございました。</p>
-  <p>送信内容は以下になります。</p>
-  <p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
-  <p>【名前】${req.body.name}</p>
-  <p>【メールアドレス】${req.body.email}</p>
-  <p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
-  `,
-    };
+    const name = req.body.name;
+    const furigana = req.body.furigana
 
-    transporter.sendMail(toGestMailData, function (err, info) {
+    const toAdminMail = {
+      from: process.env.USER,
+      to:   process.env.MAILER_USER,
+      subject: `【お問い合わせ】${req.body.name}様より`,
+      text: "お問い合わせ、ありがとうございました。\n送信内容は以下になります。\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n【名前】"+name+"\n【ふりがな】"+furigana+"\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",};
+
+    transporter.sendMail(toAdminMail, function (err, info) {
       if (err) {
         console.log(err);
         reject(err);
