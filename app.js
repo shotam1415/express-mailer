@@ -92,6 +92,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // app.listen(port);
 
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
 app.post("/contact", (req, res) => {
   sendmail(req, res);
   res.status(201).send("ok");
