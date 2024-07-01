@@ -4,7 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 const app = express();
 app.use(cors());
-// const port = 3002;
+const port = 3002;
 
 // 送信用アカウントの設定（ここでGmailのメールアドレスとアプリパスワードを利用します。）
 const transporter = nodemailer.createTransport({
@@ -90,7 +90,7 @@ async function sendmail(request, res) {
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.listen(port);
+app.listen(port);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
