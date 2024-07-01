@@ -18,33 +18,9 @@ const transporter = nodemailer.createTransport({
 
 //メールの文面
 async function sendmail(request, res) {
-  await new Promise((resolve, reject) => {
-    // const name = req.body.name;
-    // const furigana = req.body.furigana
-    
-    // const textContent = "お問い合わせ、ありがとうございました。\n"+
-    //                     "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n"+
-    //                     "【名前】"+name+"\n"+
-    //                     "【ふりがな】"+furigana+"\n"+
-    //                     "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n"
 
-    // const toAdminMail = {
-    //   from: process.env.USER,
-    //   to:   process.env.MAILER_USER,
-    //   subject: `【お問い合わせ】${name}様より`,
-    //   text: textContent};
 
-    // transporter.sendMail(toAdminMail, function (err, info) {
-    //   if (err) {
-    //     console.log(err);
-    //     reject(err);
-    //   } else {
-    //     console.log(info);
-    //     resolve(info);
-    //   }
-    // });
-
-    const body = request.json()
+    const body = await request.json()
 
     const name = body.data.name
     const email = body.data.email
@@ -98,8 +74,8 @@ async function sendmail(request, res) {
 
 
     try {
-        transporter.sendMail(toHostMailData);
-        transporter.sendMail(toCustomerMailData);
+      await transporter.sendMail(toHostMailData);
+      await transporter.sendMail(toCustomerMailData);
 
         // console.log('管理者向けメール送信成功');
         return new Response(JSON.stringify({ success: true }), { status: 200 });
@@ -107,8 +83,8 @@ async function sendmail(request, res) {
         // console.error('メール送信エラー:', error);
         return new Response('メール送信エラー', { status: 500 });
     }
-  });
-}
+  }
+
 
 //POSTのパラメータを取得できるようにする
 const bodyParser = require("body-parser");
