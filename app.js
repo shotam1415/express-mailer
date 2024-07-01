@@ -98,8 +98,8 @@ async function sendmail(request, res) {
 
 
     try {
-        await transporter.sendMail(toHostMailData);
-        await transporter.sendMail(toCustomerMailData);
+        transporter.sendMail(toHostMailData);
+        transporter.sendMail(toCustomerMailData);
 
         // console.log('管理者向けメール送信成功');
         return new Response(JSON.stringify({ success: true }), { status: 200 });
