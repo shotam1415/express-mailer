@@ -44,7 +44,7 @@ async function sendmail(request, res) {
     //   }
     // });
 
-    const body = await request.json()
+    const body = request.json()
 
     const name = body.data.name
     const email = body.data.email
